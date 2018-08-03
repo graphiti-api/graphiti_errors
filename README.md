@@ -1,6 +1,6 @@
 # JsonapiErrorable
 
-[![Build Status](https://travis-ci.org/graphiti-api/graphiti_errors.svg?branch=master)
+![Build Status](https://travis-ci.org/graphiti-api/graphiti_errors.svg?branch=master)
 
 Error handling patterns for jsonapi.org-compatible APIs.
 

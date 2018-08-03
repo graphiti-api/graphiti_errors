@@ -9,14 +9,14 @@ class LogFalseError < StandardError;end
 class CustomHandlerError < StandardError;end
 class SpecialPostError < StandardError;end
 
-class CustomErrorHandler < JsonapiErrorable::ExceptionHandler
+class CustomErrorHandler < GraphitiErrors::ExceptionHandler
   def status_code(e)
     302
   end
 end
 
 class ApplicationController < ActionController::Base
-  include JsonapiErrorable
+  include GraphitiErrors
 
   register_exception CustomStatusError,  status: 301
   register_exception CustomTitleError,   title: 'My Title'
@@ -45,7 +45,7 @@ class SpecialPostsController < PostsController
   register_exception SpecialPostError, message: ->(e) { 'special post' }
 
   def index
-    JsonapiErrorable.enable!
+    GraphitiErrors.enable!
     raise SpecialPostError
   end
 end
@@ -193,11 +193,11 @@ RSpec.describe 'jsonapi_errorable', type: :controller do
     end
   end
 
-  context 'when JsonapiErrorable disabled' do
+  context 'when GraphitiErrors disabled' do
     around do |e|
-      JsonapiErrorable.disable!
+      GraphitiErrors.disable!
       e.run
-      JsonapiErrorable.enable!
+      GraphitiErrors.enable!
     end
 
     before do

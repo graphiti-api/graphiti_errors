@@ -1,11 +1,11 @@
 require 'jsonapi/serializable'
 
-require 'jsonapi_errorable/version'
-require 'jsonapi_errorable/exception_handler'
-require 'jsonapi_errorable/validatable'
-require 'jsonapi_errorable/serializers/validation'
+require 'graphiti_errors/version'
+require 'graphiti_errors/exception_handler'
+require 'graphiti_errors/validatable'
+require 'graphiti_errors/serializers/validation'
 
-module JsonapiErrorable
+module GraphitiErrors
   def self.included(klass)
     klass.class_eval do
       class << self
@@ -42,7 +42,7 @@ module JsonapiErrorable
   end
 
   def handle_exception(e, show_raw_error: false)
-    raise e if JsonapiErrorable.disabled?
+    raise e if GraphitiErrors.disabled?
 
     exception_klass = self.class._errorable_registry[e.class] || default_exception_handler.new
     exception_klass.show_raw_error = show_raw_error
@@ -67,7 +67,7 @@ module JsonapiErrorable
     end
 
     def default_exception_handler
-      JsonapiErrorable::ExceptionHandler
+      GraphitiErrors::ExceptionHandler
     end
   end
 end

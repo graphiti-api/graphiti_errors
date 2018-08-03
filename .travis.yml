@@ -14,7 +14,7 @@ gemfile:
 deploy:
   provider: rubygems
   api_key: $RUBYGEMS_API_KEY
-  gem: jsonapi_errorable
+  gem: graphiti_errors
   on:
     tags: true
-    repo: jsonapi-suite/jsonapi_errorable
+    repo: graphiti-api/graphiti_errors

@@ -1,15 +1,15 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'jsonapi_errorable/version'
+require 'graphiti_errors/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "jsonapi_errorable"
-  spec.version       = JsonapiErrorable::VERSION
+  spec.name          = "graphiti_errors"
+  spec.version       = GraphitiErrors::VERSION
   spec.authors       = ["Lee Richmond"]
   spec.email         = ["lrichmond1@bloomberg.net"]
 
-  spec.summary       = %q{jsonapi.org compatible error handling}
+  spec.summary       = %q{Error-handling patterns for JSONAPIs}
   spec.description   = %q{Handles application errors and model validations}
   spec.license       = "MIT"
 
@@ -25,5 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec-rails", "~> 3.0"
   spec.add_development_dependency "sqlite3"
-  spec.add_development_dependency "jsonapi_spec_helpers"
+  spec.add_development_dependency "graphiti_spec_helpers"
 end

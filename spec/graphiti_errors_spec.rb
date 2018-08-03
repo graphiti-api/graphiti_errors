@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe JsonapiErrorable do
+describe GraphitiErrors do
   let(:klass) do
     Class.new do
-      include JsonapiErrorable
+      include GraphitiErrors
     end
   end
 

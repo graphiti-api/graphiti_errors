@@ -1,4 +1,4 @@
-module JsonapiErrorable
+module GraphitiErrors
   module Validatable
     def render_errors_for(record)
       validation = Serializers::Validation.new \

@@ -1,4 +1,4 @@
-module JsonapiErrorable
+module GraphitiErrors
   class ExceptionHandler
     attr_accessor :show_raw_error
 
@@ -85,7 +85,7 @@ module JsonapiErrorable
     end
 
     def logger
-      JsonapiErrorable.logger
+      GraphitiErrors.logger
     end
 
     def default_detail

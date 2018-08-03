@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'active_model'
 
-RSpec.describe JsonapiErrorable::Serializers::Validation do
+RSpec.describe GraphitiErrors::Serializers::Validation do
   let(:klass) do
     Class.new do
       def self.name;'Dummy';end # required for anonymous class

@@ -5,6 +5,7 @@ source "https://rubygems.org"
 gem "rails", "~> 5.0"
 
 group :test do
+  gem "activemodel"
   gem "appraisal"
   gem "pry"
   gem "pry-byebug"

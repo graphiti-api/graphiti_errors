@@ -44,6 +44,7 @@ module GraphitiErrors
         if show_raw_error
           meta_payload[:__raw_error__] = {
             message: error.message,
+            debug: error.instance_variable_get(:@__graphiti_debug),
             backtrace: error.backtrace
           }
         end

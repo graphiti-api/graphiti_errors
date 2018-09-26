@@ -49,6 +49,7 @@ module GraphitiErrors
     exception_klass.log(e)
     json   = exception_klass.error_payload(e)
     status = exception_klass.status_code(e)
+
     render json: json, status: status
   end
 

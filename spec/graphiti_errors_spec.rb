@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe GraphitiErrors do
   let(:klass) do
@@ -9,7 +9,7 @@ describe GraphitiErrors do
 
   let(:instance) { klass.new }
 
-  it 'includes validatable' do
+  it "includes validatable" do
     expect(instance).to respond_to(:render_errors_for)
   end
 end

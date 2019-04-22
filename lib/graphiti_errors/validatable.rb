@@ -5,7 +5,7 @@ module GraphitiErrors
         record, deserialized_params.relationships
 
       render \
-        json: { errors: validation.errors },
+        json: {errors: validation.errors},
         status: :unprocessable_entity
     end
   end

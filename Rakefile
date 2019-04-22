@@ -5,7 +5,7 @@ require "appraisal"
 RSpec::Core::RakeTask.new(:spec)
 
 if !ENV["APPRAISAL_INITIALIZED"] && !ENV["TRAVIS"]
-  task :default => :appraisal
+  task default: :appraisal
 else
-  task :default => :spec
+  task default: :spec
 end

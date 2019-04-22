@@ -13,12 +13,12 @@ module GraphitiErrors
         [].tap do |errors|
           each_error do |attribute, message, code|
             error = {
-              code:   'unprocessable_entity',
-              status: '422',
-              title: 'Validation Error',
+              code: "unprocessable_entity",
+              status: "422",
+              title: "Validation Error",
               detail: detail_for(attribute, message),
-              source: { pointer: pointer_for(object, attribute) },
-              meta:   meta_for(attribute, message, code, @relationship_meta)
+              source: {pointer: pointer_for(object, attribute)},
+              meta: meta_for(attribute, message, code, @relationship_meta),
             }
 
             errors << error
@@ -39,8 +39,8 @@ module GraphitiErrors
       def each_error
         object.errors.messages.each_pair do |attribute, messages|
           details = if Rails::VERSION::MAJOR >= 5
-                      object.errors.details.find { |k,v| k == attribute }[1]
-                    end
+            object.errors.details.find { |k, v| k == attribute }[1]
+          end
 
           messages.each_with_index do |message, index|
             code = details[index][:error] if details
@@ -68,13 +68,13 @@ module GraphitiErrors
       def meta_for(attribute, message, code, relationship_meta)
         meta = {
           attribute: attribute,
-          message: message
+          message: message,
         }
-        meta.merge!(code: code) if Rails::VERSION::MAJOR >= 5
+        meta[:code] = code if Rails::VERSION::MAJOR >= 5
 
         unless relationship_meta.empty?
           meta = {
-            relationship: meta.merge(relationship_meta)
+            relationship: meta.merge(relationship_meta),
           }
         end
 
@@ -83,7 +83,7 @@ module GraphitiErrors
 
       def detail_for(attribute, message)
         detail = object.errors.full_message(attribute, message)
-        detail = message if attribute.to_s.downcase == 'base'
+        detail = message if attribute.to_s.downcase == "base"
         detail
       end
 
@@ -114,12 +114,12 @@ module GraphitiErrors
           relationship_objects.each do |relationship_object|
             related_payload = payload
             if payload.is_a?(Array)
-              related_payload = payload.find do |p|
+              related_payload = payload.find { |p|
                 temp_id = relationship_object
                   .instance_variable_get(:@_jsonapi_temp_id)
                 p[:meta][:temp_id] === temp_id ||
                   p[:meta][:id] == relationship_object.id.to_s
-              end
+              }
             end
 
             yield name, relationship_object, related_payload
@@ -134,7 +134,7 @@ module GraphitiErrors
           meta = {}.tap do |hash|
             hash[:name] = name
             hash[:type] = payload[:meta][:jsonapi_type]
-            if temp_id = model.instance_variable_get(:@_jsonapi_temp_id)
+            if (temp_id = model.instance_variable_get(:@_jsonapi_temp_id))
               hash[:'temp-id'] = temp_id
             else
               hash[:id] = model.id

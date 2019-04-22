@@ -11,4 +11,4 @@ group :test do
   gem "pry-byebug"
 end
 
-gemspec :path => "../"
+gemspec path: "../"

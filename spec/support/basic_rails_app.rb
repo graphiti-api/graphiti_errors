@@ -35,8 +35,8 @@
 #
 # It is also good to know what is the bare minimum to get
 # Rails booted up.
-require 'bundler/setup' unless defined?(Bundler)
-require 'rails'
+require "bundler/setup" unless defined?(Bundler)
+require "rails"
 
 module BasicRailsApp
   module_function
@@ -44,18 +44,18 @@ module BasicRailsApp
   # Make a very basic app, without creating the whole directory structure.
   # Is faster and simpler than generating a Rails app in a temp directory
   def generate
-    @app = Class.new(Rails::Application) do
+    @app = Class.new(Rails::Application) {
       config.eager_load = false
-      config.session_store :cookie_store, key: '_myapp_session'
+      config.session_store :cookie_store, key: "_myapp_session"
       config.active_support.deprecation = :log
       config.root = File.dirname(__FILE__)
       config.log_level = :info
       # Set a fake logger to avoid creating the log directory automatically
       fake_logger = Logger.new(nil)
       config.logger = fake_logger
-      Rails.application.routes.default_url_options = { host: 'example.com' }
-    end
-    @app.respond_to?(:secrets) && @app.secrets.secret_key_base = '3b7cd727ee24e8444053437c36cc66c4'
+      Rails.application.routes.default_url_options = {host: "example.com"}
+    }
+    @app.respond_to?(:secrets) && @app.secrets.secret_key_base = "3b7cd727ee24e8444053437c36cc66c4"
 
     yield @app if block_given?
     @app.initialize!

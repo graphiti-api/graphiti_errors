@@ -24,7 +24,7 @@ module GraphitiErrors
     end
 
     def title
-      @title || 'Error'
+      @title || "Error"
     end
 
     def detail(error)
@@ -45,7 +45,7 @@ module GraphitiErrors
           meta_payload[:__raw_error__] = {
             message: error.message,
             debug: error.instance_variable_get(:@__graphiti_debug),
-            backtrace: error.backtrace
+            backtrace: error.backtrace,
           }
         end
       end
@@ -58,8 +58,8 @@ module GraphitiErrors
           status: status_code(error).to_s,
           title: title,
           detail: detail(error),
-          meta: meta(error)
-        ]
+          meta: meta(error),
+        ],
       }
     end
 
@@ -71,7 +71,7 @@ module GraphitiErrors
       return unless log?
       backtrace = error.backtrace
 
-      if cleaner = backtrace_cleaner
+      if (cleaner = backtrace_cleaner)
         backtrace = cleaner.clean(backtrace)
       end
 

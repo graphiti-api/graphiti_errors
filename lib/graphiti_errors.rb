@@ -1,9 +1,9 @@
-require 'jsonapi/serializable'
+require "jsonapi/serializable"
 
-require 'graphiti_errors/version'
-require 'graphiti_errors/exception_handler'
-require 'graphiti_errors/validatable'
-require 'graphiti_errors/serializers/validation'
+require "graphiti_errors/version"
+require "graphiti_errors/exception_handler"
+require "graphiti_errors/validatable"
+require "graphiti_errors/serializers/validation"
 
 module GraphitiErrors
   def self.included(klass)
@@ -13,7 +13,7 @@ module GraphitiErrors
       end
 
       def self.inherited(subklass)
-        subklass._errorable_registry = self._errorable_registry.dup
+        subklass._errorable_registry = _errorable_registry.dup
       end
     end
     klass._errorable_registry = {}
@@ -64,7 +64,7 @@ module GraphitiErrors
   module ClassMethods
     def register_exception(klass, options = {})
       exception_klass = options[:handler] || default_exception_handler
-      self._errorable_registry[klass] = exception_klass.new(options)
+      _errorable_registry[klass] = exception_klass.new(options)
     end
 
     def default_exception_handler

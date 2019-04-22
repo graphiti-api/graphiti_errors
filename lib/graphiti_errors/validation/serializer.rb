@@ -1,6 +1,6 @@
 module GraphitiErrors
-  module Serializers
-    class Validation
+  module Validation
+    class Serializer
       attr_reader :object
 
       def initialize(object, relationship_payloads = {}, relationship_meta = {})

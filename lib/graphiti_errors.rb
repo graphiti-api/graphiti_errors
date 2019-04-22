@@ -2,8 +2,10 @@ require "jsonapi/serializable"
 
 require "graphiti_errors/version"
 require "graphiti_errors/exception_handler"
-require "graphiti_errors/validatable"
-require "graphiti_errors/serializers/validation"
+require "graphiti_errors/invalid_request/serializer"
+require "graphiti_errors/invalid_request/exception_handler"
+require "graphiti_errors/validation/serializer"
+require "graphiti_errors/validation/validatable"
 
 module GraphitiErrors
   def self.included(klass)
@@ -17,8 +19,13 @@ module GraphitiErrors
       end
     end
     klass._errorable_registry = {}
-    klass.send(:include, Validatable)
+    klass.send(:include, Validation::Validatable)
     klass.extend ClassMethods
+
+    if defined?(Graphiti::Errors::InvalidRequest)
+      klass.register_exception Graphiti::Errors::InvalidRequest,
+        handler: GraphitiErrors::InvalidRequest::ExceptionHandler
+    end
   end
 
   def self.disable!
@@ -70,5 +77,11 @@ module GraphitiErrors
     def default_exception_handler
       GraphitiErrors::ExceptionHandler
     end
+  end
+
+  # Backwards compatibility, as Graphiti 1.0.x references GraphitiErrors::Serializers::Validation
+  # where newer versions correctly point to GraphitiErrors::Validation::Serializer
+  module Serializers
+    Validation = GraphitiErrors::Validation::Serializer
   end
 end

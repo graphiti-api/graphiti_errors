@@ -5,7 +5,6 @@ require "graphiti_errors/exception_handler"
 require "graphiti_errors/invalid_request/serializer"
 require "graphiti_errors/invalid_request/exception_handler"
 require "graphiti_errors/validation/serializer"
-require "graphiti_errors/validation/validatable"
 
 module GraphitiErrors
   def self.included(klass)
@@ -19,7 +18,6 @@ module GraphitiErrors
       end
     end
     klass._errorable_registry = {}
-    klass.send(:include, Validation::Validatable)
     klass.extend ClassMethods
 
     if defined?(Graphiti::Errors::InvalidRequest)

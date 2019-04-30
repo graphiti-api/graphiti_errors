@@ -9,6 +9,16 @@ class LogFalseError < StandardError; end
 class CustomHandlerError < StandardError; end
 class SpecialPostError < StandardError; end
 
+module Graphiti::Errors
+  class InvalidRequest < StandardError
+    attr_reader :errors
+
+    def initialize(errors)
+      @errors = errors
+    end
+  end
+end
+
 class CustomErrorHandler < GraphitiErrors::ExceptionHandler
   def status_code(e)
     302
@@ -189,6 +199,91 @@ RSpec.describe "graphiti_errorable", type: :controller do
         expect(response.status).to eq(302)
         expect(error["status"]).to eq("302")
         expect(error["code"]).to eq("found")
+      end
+    end
+
+    context "when a graphiti invalid request error" do
+      let(:errors_object) do
+        double(:errors, {
+          details: {
+            'data.attributes.foo': [
+              {error: :not_writable},
+              {error: :invalid},
+            ],
+            'included[0].attributes.bar': [
+              {error: :unknown_attribute},
+            ],
+          },
+          messages: {
+            'data.attributes.foo': [
+              "is not writable",
+              "is invalid",
+            ],
+            'included[0].attributes.bar': [
+              "is not a known attribute",
+            ],
+          },
+        }).tap do |d|
+          allow(d).to receive(:full_message)
+            .with(:'data.attributes.foo', "is not writable").and_return("not writable full message")
+          allow(d).to receive(:full_message)
+            .with(:'data.attributes.foo', "is invalid").and_return("invalid full message")
+          allow(d).to receive(:full_message)
+            .with(:'included[0].attributes.bar', "is not a known attribute").and_return("unknown attribute full message")
+        end
+      end
+
+      before do
+        raises(Graphiti::Errors::InvalidRequest, errors_object)
+      end
+
+      it "returns a bad request error payload" do
+        get :index
+        expect(response.status).to eq(400)
+        expect(json["errors"]).to eq([
+          {
+            "code" => "bad_request",
+            "detail" => "not writable full message",
+            "meta" => {
+              "attribute" => "data.attributes.foo",
+              "code" => "not_writable",
+              "message" => "is not writable",
+            },
+            "source" => {
+              "pointer" => "data/attributes/foo",
+            },
+            "status" => "400",
+            "title" => "Request Error",
+          },
+          {
+            "code" => "bad_request",
+            "detail" => "invalid full message",
+            "meta" => {
+              "attribute" => "data.attributes.foo",
+              "code" => "invalid",
+              "message" => "is invalid",
+            },
+            "source" => {
+              "pointer" => "data/attributes/foo",
+            },
+            "status" => "400",
+            "title" => "Request Error",
+          },
+          {
+            "code" => "bad_request",
+            "detail" => "unknown attribute full message",
+            "meta" => {
+              "attribute" => "included[0].attributes.bar",
+              "code" => "unknown_attribute",
+              "message" => "is not a known attribute",
+            },
+            "source" => {
+              "pointer" => "included/0/attributes/bar",
+            },
+            "status" => "400",
+            "title" => "Request Error",
+          },
+        ])
       end
     end
   end

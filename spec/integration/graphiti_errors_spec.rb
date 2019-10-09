@@ -10,7 +10,7 @@ class CustomHandlerError < StandardError; end
 class SpecialPostError < StandardError; end
 
 module Graphiti::Errors
-  class InvalidRequest < StandardError
+  class BadRequest < StandardError
     attr_reader :errors
 
     def initialize(errors)

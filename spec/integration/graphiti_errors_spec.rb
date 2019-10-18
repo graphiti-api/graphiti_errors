@@ -49,6 +49,10 @@ class PostsController < ApplicationController
   def index
     render json: {}
   end
+
+  def update
+    head(:no_content)
+  end
 end
 
 class SpecialPostsController < PostsController
@@ -63,8 +67,8 @@ end
 RSpec.describe "graphiti_errorable", type: :controller do
   controller(PostsController) { }
 
-  def raises(klass, message)
-    expect(controller).to receive(:index).and_raise(klass, message)
+  def raises(klass, message, action: :index)
+    expect(controller).to receive(action).and_raise(klass, message)
   end
 
   def error
@@ -285,6 +289,26 @@ RSpec.describe "graphiti_errorable", type: :controller do
           },
         ])
       end
+    end
+  end
+
+  context "when a graphiti conflict request error" do
+    let(:errors_object) do
+      double(:errors, {
+               details: {
+               },
+               messages: {
+               }
+             }
+            )
+    end
+    before do
+      raises(Graphiti::Errors::ConflictRequest, errors_object, action: :update)
+    end
+
+    it "returns a conflict request error" do
+      put :update, params: { id: 1, data: {} }
+      expect(response.status).to eq(409)
     end
   end
 

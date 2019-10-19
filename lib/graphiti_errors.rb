@@ -4,6 +4,8 @@ require "graphiti_errors/version"
 require "graphiti_errors/exception_handler"
 require "graphiti_errors/invalid_request/serializer"
 require "graphiti_errors/invalid_request/exception_handler"
+require "graphiti_errors/conflict_request/serializer"
+require "graphiti_errors/conflict_request/exception_handler"
 require "graphiti_errors/validation/serializer"
 
 module GraphitiErrors
@@ -23,6 +25,11 @@ module GraphitiErrors
     if defined?(Graphiti::Errors::InvalidRequest)
       klass.register_exception Graphiti::Errors::InvalidRequest,
         handler: GraphitiErrors::InvalidRequest::ExceptionHandler
+    end
+
+    if defined?(Graphiti::Errors::ConflictRequest)
+      klass.register_exception Graphiti::Errors::ConflictRequest,
+        handler: GraphitiErrors::ConflictRequest::ExceptionHandler
     end
   end
 

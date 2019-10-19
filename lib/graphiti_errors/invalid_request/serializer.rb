@@ -4,6 +4,7 @@ module GraphitiErrors
       attr_reader :errors
       def initialize(errors)
         @errors = errors
+        @status_code = 400
       end
 
       def rendered_errors
@@ -15,7 +16,7 @@ module GraphitiErrors
 
             errors_payload << {
               code: "bad_request",
-              status: "400",
+              status: @status_code.to_s,
               title: "Request Error",
               detail: errors.full_message(attribute, message),
               source: {

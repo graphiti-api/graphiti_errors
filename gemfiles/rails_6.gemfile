@@ -3,8 +3,6 @@
 source "https://rubygems.org"
 
 gem "rails", "~> 6.0"
-gem "graphiti_spec_helpers", path: "../../graphiti_spec_helpers"
-gem "graphiti", path: "../../graphiti"
 
 group :test do
   gem "activemodel"

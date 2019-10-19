@@ -292,23 +292,25 @@ RSpec.describe "graphiti_errorable", type: :controller do
     end
   end
 
-  context "when a graphiti conflict request error" do
-    let(:errors_object) do
-      double(:errors, {
-               details: {
-               },
-               messages: {
+  if defined?(Graphiti::Errors::ConflictRequest)
+    context "when a graphiti conflict request error" do
+      let(:errors_object) do
+        double(:errors, {
+                 details: {
+                 },
+                 messages: {
+                 }
                }
-             }
-            )
-    end
-    before do
-      raises(Graphiti::Errors::ConflictRequest, errors_object, action: :update)
-    end
+              )
+      end
+      before do
+        raises(Graphiti::Errors::ConflictRequest, errors_object, action: :update)
+      end
 
-    it "returns a conflict request error" do
-      put :update, params: { id: 1, data: {} }
-      expect(response.status).to eq(409)
+      it "returns a conflict request error" do
+        put :update, params: { id: 1, data: {} }
+        expect(response.status).to eq(409)
+      end
     end
   end
 

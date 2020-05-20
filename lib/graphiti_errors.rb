@@ -16,6 +16,7 @@ module GraphitiErrors
       end
 
       def self.inherited(subklass)
+        super
         subklass._errorable_registry = _errorable_registry.dup
       end
     end

@@ -23,15 +23,6 @@ module GraphitiErrors
     klass._errorable_registry = {}
     klass.extend ClassMethods
 
-    if defined?(Graphiti::Errors::InvalidRequest)
-      klass.register_exception Graphiti::Errors::InvalidRequest,
-        handler: GraphitiErrors::InvalidRequest::ExceptionHandler
-    end
-
-    if defined?(Graphiti::Errors::ConflictRequest)
-      klass.register_exception Graphiti::Errors::ConflictRequest,
-        handler: GraphitiErrors::ConflictRequest::ExceptionHandler
-    end
   end
 
   def self.disable!
@@ -75,11 +66,6 @@ module GraphitiErrors
   end
 
   module ClassMethods
-    def register_exception(klass, options = {})
-      exception_klass = options[:handler] || default_exception_handler
-      _errorable_registry[klass] = exception_klass.new(options)
-    end
-
     def default_exception_handler
       GraphitiErrors::ExceptionHandler
     end

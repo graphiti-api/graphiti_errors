@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Lee Richmond"]
   spec.email         = ["lrichmond1@bloomberg.net"]
 
-  spec.summary       = "Error-handling patterns for JSONAPIs"
+  spec.summary       = "Deprecated - part of graphiti itself as of graphiti 2.0"
   spec.description   = "Handles application errors and model validations"
   spec.license       = "MIT"
 

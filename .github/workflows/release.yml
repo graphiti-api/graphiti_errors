@@ -1,0 +1,26 @@
+---
+name: Release
+
+# Manual only. This gem is retired, so releases are rare and deliberate.
+# gem push refuses a version that already exists, so bump lib/graphiti_errors/
+# version.rb first.
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: Build and push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1"
+
+      - name: Build and push
+        env:
+          GEM_HOST_API_KEY: ${{ secrets.GEM_HOST_API_KEY }}
+        run: |
+          gem build graphiti_errors.gemspec
+          gem push graphiti_errors-*.gem
